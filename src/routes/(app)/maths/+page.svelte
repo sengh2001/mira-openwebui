@@ -164,7 +164,7 @@
 											<h3
 												class="font-bold text-lg text-gray-900 dark:text-gray-100 mb-1 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors"
 											>
-												{topic.improved_topic_name || topic.original_topic}
+												{topic.original_topic} : {topic.improved_topic_name || topic.original_topic}
 											</h3>
 											<button
 												class="text-gray-400 hover:text-blue-500 transition-transform duration-300 {expandedTopicIndex ===
@@ -190,28 +190,47 @@
 										class="bg-gray-50/50 dark:bg-gray-900/30 border-t border-gray-100 dark:border-gray-700"
 									>
 										<div class="p-6 grid gap-6 md:grid-cols-2">
-											<!-- Objectives -->
-											<div>
-												<h4
-													class="text-xs font-bold uppercase tracking-wider text-gray-500 mb-2 flex items-center gap-1"
-												>
-													<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-														><path
-															stroke-linecap="round"
-															stroke-linejoin="round"
-															stroke-width="2"
-															d="M13 10V3L4 14h7v7l9-11h-7z"
-														/></svg
-													>
-													Learning Objective
-												</h4>
-												<p
-													class="text-sm text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 p-3 rounded-lg border border-gray-200 dark:border-gray-700"
-												>
-													{topic.learning_objective_summary ||
-														topic.learning_objective ||
-														'No specific objectives listed.'}
-												</p>
+											<!-- Topic Overview -->
+											<div class="space-y-4">
+												<div>
+													<h4 class="text-xs font-bold uppercase tracking-wider text-gray-500 mb-1">
+														Topic Summary
+													</h4>
+													<p class="text-sm text-gray-700 dark:text-gray-300">
+														{topic.topic_summary || 'No summary available.'}
+													</p>
+												</div>
+											</div>
+
+											<!-- Learning Objectives -->
+											<div class="space-y-4">
+												{#if topic.learning_objective}
+													<div>
+														<h4
+															class="text-xs font-bold uppercase tracking-wider text-gray-500 mb-1"
+														>
+															Learning Objective
+														</h4>
+														<p
+															class="text-sm text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 p-3 rounded-lg border border-gray-200 dark:border-gray-700"
+														>
+															{topic.learning_objective}
+														</p>
+													</div>
+												{/if}
+
+												{#if topic.learning_objective_summary}
+													<div>
+														<h4
+															class="text-xs font-bold uppercase tracking-wider text-gray-500 mb-1"
+														>
+															Learning Objective Summary
+														</h4>
+														<p class="text-sm text-gray-600 dark:text-gray-400 italic">
+															{topic.learning_objective_summary}
+														</p>
+													</div>
+												{/if}
 											</div>
 
 											<!-- Sample QA Preview -->
