@@ -51,6 +51,12 @@ validators==0.35.0
 psutil
 pydub
 python-dotenv
+typer
+PyYAML
+python-dateutil
+certifi
+yarl
+ldap3
 
 # --- HTML/Markdown Parsing (used at startup by env.py) ---
 beautifulsoup4
@@ -70,6 +76,8 @@ mcp==1.25.0
 openai
 anthropic
 google-genai==1.56.0
+huggingface-hub
+grpcio
 
 # --- LangChain (text splitting + document processing only) ---
 langchain==1.2.0
