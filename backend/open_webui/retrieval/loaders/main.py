@@ -4,9 +4,7 @@ import ftfy
 import sys
 import json
 
-from azure.identity import DefaultAzureCredential
 from langchain_community.document_loaders import (
-    AzureAIDocumentIntelligenceLoader,
     BSHTMLLoader,
     CSVLoader,
     Docx2txtLoader,
@@ -314,6 +312,9 @@ class Loader:
                 ]
             )
         ):
+            # Lazy import — only needed when document_intelligence engine is selected
+            from azure.identity import DefaultAzureCredential
+            from langchain_community.document_loaders import AzureAIDocumentIntelligenceLoader
             if self.kwargs.get("DOCUMENT_INTELLIGENCE_KEY") != "":
                 loader = AzureAIDocumentIntelligenceLoader(
                     file_path=file_path,
