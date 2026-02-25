@@ -48,15 +48,21 @@ ENV OLLAMA_BASE_URL="" \
     DO_NOT_TRACK=true \
     ANONYMIZED_TELEMETRY=false
 
-## Disable Ollama (we use Pipecat + Groq instead) ##
+## Disable Ollama, enable Groq via OpenAI-compatible API ##
+## OPENAI_API_KEY + OPENAI_API_BASE_URL must be set in Railway Variables ##
 ENV ENABLE_OLLAMA_API=false \
-    ENABLE_OPENAI_API=false
+    ENABLE_OPENAI_API=true \
+    TASK_MODEL_EXTERNAL="llama-3.1-8b-instant"
 
 ## Pipecat voice AI backend ##
 ## PIPECAT_API_URL must be set as a Railway environment variable ##
 ENV PIPECAT_ENABLED=true \
     PIPECAT_CONNECTION_MODE=websocket \
     PIPECAT_API_URL=""
+
+## Session & auth ##
+## 30-day sessions so users aren't forced to re-login constantly ##
+ENV JWT_EXPIRES_IN="30d"
 
 ## Disable local model downloads at startup ##
 ENV RAG_EMBEDDING_MODEL="" \
