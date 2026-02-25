@@ -180,7 +180,7 @@ async def generate_title(
         models = request.app.state.MODELS
 
     model_id = form_data["model"]
-    if model_id not in models:
+    if model_id not in models and model_id != "mira":
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Model not found",
