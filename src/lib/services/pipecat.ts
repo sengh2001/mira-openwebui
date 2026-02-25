@@ -1,6 +1,6 @@
 import { writable } from 'svelte/store';
 import { PipecatClient as SDKClient, RTVIEvent } from '@pipecat-ai/client-js';
-import { WebSocketTransport, ProtobufFrameSerializer, WavMediaManager } from '@pipecat-ai/websocket-transport';
+import { WebSocketTransport, TextFrameSerializer, WavMediaManager } from '@pipecat-ai/websocket-transport';
 
 // ── Debug Logging ────────────────────────────────────────────────────
 // All verbose diagnostic logs are gated behind a localStorage flag.
@@ -121,11 +121,11 @@ export class PipecatClient {
                     if (isPipecatDebug() && (msgCount <= 30 || msgCount % 100 === 0)) {
                         const dataType = typeof event.data === 'string' ? 'STRING'
                             : event.data instanceof ArrayBuffer ? 'ARRAYBUFFER'
-                            : event.data instanceof Blob ? 'BLOB'
-                            : 'UNKNOWN';
+                                : event.data instanceof Blob ? 'BLOB'
+                                    : 'UNKNOWN';
                         const dataSize = typeof event.data === 'string' ? event.data.length
                             : event.data instanceof ArrayBuffer ? event.data.byteLength
-                            : event.data instanceof Blob ? event.data.size : 0;
+                                : event.data instanceof Blob ? event.data.size : 0;
                         dbg(`[WS-INTERCEPT] #${msgCount} ${dataType} size=${dataSize} client=${!!client}`);
                     }
 
@@ -202,7 +202,7 @@ export class PipecatClient {
                                         handleJsonMsg(msg);
                                     } catch { /* not JSON */ }
                                 }
-                            }).catch(() => {});
+                            }).catch(() => { });
                         }
                     }
                 });
@@ -319,8 +319,11 @@ export class PipecatClient {
                         this.setupMediaTracks();
                     },
                     onDeviceError: (error: any) => {
-                        console.warn('[Pipecat] Device error:', error);
-                        this.error.set(`Microphone error: ${error.type}`);
+                        console.warn('[Pipecat] Transport error:', error);
+                        this.error.set(`Transport error: ${error}`);
+                    },
+                    onMessage: (message: any) => {
+                        dbg('[Pipecat] Internal SDK message:', message);
                     },
                     onUserTranscript: (data: any) => {
                         dbg('[Pipecat] User transcript:', data.text, 'final:', data.final);
