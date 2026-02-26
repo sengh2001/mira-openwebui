@@ -1856,7 +1856,8 @@
 				body: JSON.stringify({
 					messages: chatMessages,
 					stream: true,
-					topic: $page.url.searchParams.get('topic')
+					topic: $page.url.searchParams.get('topic'),
+					user_name: $user?.name
 				}),
 				signal: controller.signal
 			});
