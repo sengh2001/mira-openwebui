@@ -4,31 +4,38 @@
 	import { slide } from 'svelte/transition';
 	import ChevronDown from '$lib/components/icons/ChevronDown.svelte';
 	import ChevronUp from '$lib/components/icons/ChevronUp.svelte';
+	import { config } from '$lib/stores';
 
-	// Pipecat backend URL
-	const PIPECAT_API_URL = 'http://localhost:7860';
-
+	// Pipecat backend URL - dynamic from config store
+	$: PIPECAT_API_URL = $config?.audio?.pipecat?.url || 'http://localhost:7860';
 	let grades = [];
 	let selectedGrade = null;
 	let topics = [];
 	let loading = false;
 	let error = null;
-
-	// Track expanded topic for showing details
 	let expandedTopicIndex = null;
 
-	onMount(async () => {
+	$: if (PIPECAT_API_URL && grades.length === 0) {
+		fetchGrades();
+	}
+
+	async function fetchGrades() {
 		try {
 			const res = await fetch(`${PIPECAT_API_URL}/maths/grades`);
 			if (res.ok) {
 				const data = await res.json();
 				grades = data.grades;
+				error = null;
 			} else {
 				error = 'Failed to load grades. Ensure backend is running.';
 			}
 		} catch (e) {
 			error = 'Error connecting to backend: ' + e.message;
 		}
+	}
+
+	onMount(async () => {
+		// Grades are now handled reactively above
 	});
 
 	async function loadTopics(grade) {
